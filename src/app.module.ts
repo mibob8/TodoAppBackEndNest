@@ -2,7 +2,9 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TodosController } from './todos/todos.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmModule } from '@nestjs/typeorm'; 
+import { TodosModule } from './todos/todos.module';
+import { TodosService } from './todos/todos.service';
 
 @Module({
   imports: [
@@ -12,8 +14,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
+    TodosModule,
   ],
-  controllers: [AppController, TodosController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}

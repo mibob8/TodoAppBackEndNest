@@ -1,30 +1,25 @@
 import { TodoDTO } from './todo.dto';
 import { Body, Controller, Get, Post, Param, Put } from '@nestjs/common';
-
+import { TodosService } from './todos.service';
+import { Todo } from './todo.entity';
 
 @Controller('todos')
 export class TodosController {
+  constructor(private todoService: TodosService) {}
+
   @Get()
-  getTodos(): TodoDTO[] {
-    return null;
+  getTodos(): Promise<Todo[]> {
+    return this.todoService.findAll();
   }
 
   @Post()
-  createTodo(@Body() createTodo: TodoDTO): TodoDTO {
-    // const newTodo: TodoDTO = {
-    //   id: (todosData.length + 1).toString(),
-    //   ...createTodo,
-    // };
-
-    // todosData = [...todosData, newTodo];
-
-    return createTodo;
+  createTodo(@Body() createTodo: TodoDTO): Promise<any> {
+    return this.todoService.create(createTodo.title, createTodo.status);
   }
 
   @Put(':id')
-  updateTodo(@Body() updateTodo: TodoDTO, @Param('id') id): TodoDTO {
-    // todosData = todosData.map((todo) => (todo.id === id ? updateTodo : todo));
-
+  updateTodo(@Body() updateTodo: Todo, @Param('id') id): Todo { 
+    this.todoService.update(updateTodo);
     return updateTodo;
   }
 }
